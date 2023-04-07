@@ -1,0 +1,101 @@
+{
+	"info": {
+		"_postman_id": "b75a694f-f145-450c-aa3f-aa10cd3077c0",
+		"name": "Currency rates Postman collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9699847"
+	},
+	"item": [
+		{
+			"name": "Get currency rates",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/rates",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"rates"
+					],
+					"query": [
+						{
+							"key": "Username",
+							"value": "user",
+							"disabled": true
+						},
+						{
+							"key": "Password",
+							"value": "user",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get currency rates response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/rates",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"rates"
+							],
+							"query": [
+								{
+									"key": "Username",
+									"value": "user",
+									"disabled": true
+								},
+								{
+									"key": "Password",
+									"value": "user",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 09 Apr 2023 18:47:50 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"nameLT\": \"Australijos doleris\",\n        \"nameEN\": \"Australian dollar\",\n        \"currencyCode\": \"AUD\",\n        \"currencyAmount\": 1.6312\n    },\n    {\n        \"nameLT\": \"Bulgarijos levas\",\n        \"nameEN\": \"Bulgarian lev\",\n        \"currencyCode\": \"BGN\",\n        \"currencyAmount\": 1.9558\n    },\n    {\n        \"nameLT\": \"Brazilijos realas\",\n        \"nameEN\": \"Brazilian real\",\n        \"currencyCode\": \"BRL\",\n        \"currencyAmount\": 5.5096\n    },\n    {\n        \"nameLT\": \"Kanados doleris\",\n        \"nameEN\": \"Canadian dollar\",\n        \"currencyCode\": \"CAD\",\n        \"currencyAmount\": 1.4704\n    },\n    {\n        \"nameLT\": \"Šveicarijos frankas\",\n        \"nameEN\": \"Swiss franc\",\n        \"currencyCode\": \"CHF\",\n        \"currencyAmount\": 0.9878\n    },\n    {\n        \"nameLT\": \"Kinijos  ženminbi juanis\",\n        \"nameEN\": \"Chinese yuan renminbi\",\n        \"currencyCode\": \"CNY\",\n        \"currencyAmount\": 7.5014\n    },\n    {\n        \"nameLT\": \"Čekijos krona\",\n        \"nameEN\": \"Czech koruna\",\n        \"currencyCode\": \"CZK\",\n        \"currencyAmount\": 23.409\n    },\n    {\n        \"nameLT\": \"Danijos krona\",\n        \"nameEN\": \"Danish krone\",\n        \"currencyCode\": \"DKK\",\n        \"currencyAmount\": 7.451\n    },\n    {\n        \"nameLT\": \"Didžiosios Britanijos svaras sterlingų\",\n        \"nameEN\": \"Pound sterling\",\n        \"currencyCode\": \"GBP\",\n        \"currencyAmount\": 0.87495\n    },\n    {\n        \"nameLT\": \"Honkongo doleris\",\n        \"nameEN\": \"Hong Kong dollar\",\n        \"currencyCode\": \"HKD\",\n        \"currencyAmount\": 8.5682\n    },\n    {\n        \"nameLT\": \"Vengrijos forintas\",\n        \"nameEN\": \"Hungarian forint\",\n        \"currencyCode\": \"HUF\",\n        \"currencyAmount\": 376.1\n    },\n    {\n        \"nameLT\": \"Indonezijos rupija\",\n        \"nameEN\": \"Indonesian rupiah\",\n        \"currencyCode\": \"IDR\",\n        \"currencyAmount\": 16290.63\n    },\n    {\n        \"nameLT\": \"Izraelio  naujasis šekelis\",\n        \"nameEN\": \"Israeli new shekel\",\n        \"currencyCode\": \"ILS\",\n        \"currencyAmount\": 3.9261\n    },\n    {\n        \"nameLT\": \"Indijos rupija\",\n        \"nameEN\": \"Indian rupee\",\n        \"currencyCode\": \"INR\",\n        \"currencyAmount\": 89.3655\n    },\n    {\n        \"nameLT\": \"Islandijos krona\",\n        \"nameEN\": \"Iceland krona\",\n        \"currencyCode\": \"ISK\",\n        \"currencyAmount\": 149.7\n    },\n    {\n        \"nameLT\": \"Japonijos jena\",\n        \"nameEN\": \"Japanese yen\",\n        \"currencyCode\": \"JPY\",\n        \"currencyAmount\": 143.49\n    },\n    {\n        \"nameLT\": \"Pietų Korėjos vonas\",\n        \"nameEN\": \"South Korean won\",\n        \"currencyCode\": \"KRW\",\n        \"currencyAmount\": 1438.81\n    },\n    {\n        \"nameLT\": \"Malaizijos ringitas\",\n        \"nameEN\": \"Malaysian ringgit\",\n        \"currencyCode\": \"MYR\",\n        \"currencyAmount\": 4.8015\n    },\n    {\n        \"nameLT\": \"Meksikos pesas\",\n        \"nameEN\": \"Mexican peso\",\n        \"currencyCode\": \"MXN\",\n        \"currencyAmount\": 19.9624\n    },\n    {\n        \"nameLT\": \"Norvegijos krona\",\n        \"nameEN\": \"Norwegian krone\",\n        \"currencyCode\": \"NOK\",\n        \"currencyAmount\": 11.3855\n    },\n    {\n        \"nameLT\": \"Naujosios Zelandijos doleris\",\n        \"nameEN\": \"New Zealand dollar\",\n        \"currencyCode\": \"NZD\",\n        \"currencyAmount\": 1.7387\n    },\n    {\n        \"nameLT\": \"Filipinų pesas\",\n        \"nameEN\": \"Philippine peso\",\n        \"currencyCode\": \"PHP\",\n        \"currencyAmount\": 59.562\n    },\n    {\n        \"nameLT\": \"Lenkijos zlotas\",\n        \"nameEN\": \"Polish zloty\",\n        \"currencyCode\": \"PLN\",\n        \"currencyAmount\": 4.6863\n    },\n    {\n        \"nameLT\": \"Rumunijos lėja\",\n        \"nameEN\": \"Romanian leu\",\n        \"currencyCode\": \"RON\",\n        \"currencyAmount\": 4.9369\n    },\n    {\n        \"nameLT\": \"Švedijos krona\",\n        \"nameEN\": \"Swedish krona\",\n        \"currencyCode\": \"SEK\",\n        \"currencyAmount\": 11.3875\n    },\n    {\n        \"nameLT\": \"Singapūro doleris\",\n        \"nameEN\": \"Singapore dollar\",\n        \"currencyCode\": \"SGD\",\n        \"currencyAmount\": 1.4507\n    },\n    {\n        \"nameLT\": \"Tailando batas\",\n        \"nameEN\": \"Thai baht\",\n        \"currencyCode\": \"THB\",\n        \"currencyAmount\": 37.171\n    },\n    {\n        \"nameLT\": \"Turkijos lira\",\n        \"nameEN\": \"Turkish lira\",\n        \"currencyCode\": \"TRY\",\n        \"currencyAmount\": 21.0195\n    },\n    {\n        \"nameLT\": \"JAV doleris\",\n        \"nameEN\": \"US dollar\",\n        \"currencyCode\": \"USD\",\n        \"currencyAmount\": 1.0915\n    },\n    {\n        \"nameLT\": \"Pietų Afrikos Respublikos randas\",\n        \"nameEN\": \"South African rand\",\n        \"currencyCode\": \"ZAR\",\n        \"currencyAmount\": 19.8929\n    },\n    {\n        \"nameLT\": \"Rusijos rublis\",\n        \"nameEN\": \"Russian ruble\",\n        \"currencyCode\": \"RUB\",\n        \"currencyAmount\": 117.201\n    },\n    {\n        \"nameLT\": \"Jungtinių Arabų Emiratų dirhamas\",\n        \"nameEN\": \"UAE dirham\",\n        \"currencyCode\": \"AED\",\n        \"currencyAmount\": 3.99873\n    },\n    {\n        \"nameLT\": \"Afganistano afganis\",\n        \"nameEN\": \"Afghani\",\n        \"currencyCode\": \"AFN\",\n        \"currencyAmount\": 94.61672\n    },\n    {\n        \"nameLT\": \"Albanijos lekas\",\n        \"nameEN\": \"Albanian lek\",\n        \"currencyCode\": \"ALL\",\n        \"currencyAmount\": 113.18076\n    },\n    {\n        \"nameLT\": \"Armėnijos dramas\",\n        \"nameEN\": \"Armenian dram\",\n        \"currencyCode\": \"AMD\",\n        \"currencyAmount\": 425.39416\n    },\n    {\n        \"nameLT\": \"Argentinos pesas\",\n        \"nameEN\": \"Argentine peso\",\n        \"currencyCode\": \"ARS\",\n        \"currencyAmount\": 226.78953\n    },\n    {\n        \"nameLT\": \"Azerbaidžano manatas\",\n        \"nameEN\": \"Azerbaijan manat\",\n        \"currencyCode\": \"AZN\",\n        \"currencyAmount\": 1.85096\n    },\n    {\n        \"nameLT\": \"Bosnijos ir Hercegovinos konvertuojamoji markė\",\n        \"nameEN\": \"Convertible marks\",\n        \"currencyCode\": \"BAM\",\n        \"currencyAmount\": 1.96093\n    },\n    {\n        \"nameLT\": \"Bangladešo taka\",\n        \"nameEN\": \"Bangladeshi taka\",\n        \"currencyCode\": \"BDT\",\n        \"currencyAmount\": 116.7738\n    },\n    {\n        \"nameLT\": \"Bahreino dinaras\",\n        \"nameEN\": \"Bahraini dinar\",\n        \"currencyCode\": \"BHD\",\n        \"currencyAmount\": 0.4105\n    },\n    {\n        \"nameLT\": \"Baltarusijos rublis\",\n        \"nameEN\": \"Belarusian ruble\",\n        \"currencyCode\": \"BYN\",\n        \"currencyAmount\": 2.74878\n    },\n    {\n        \"nameLT\": \"Bolivijos bolivianas\",\n        \"nameEN\": \"Bolivian boliviano\",\n        \"currencyCode\": \"BOB\",\n        \"currencyAmount\": 7.52361\n    },\n    {\n        \"nameLT\": \"Čilės pesas\",\n        \"nameEN\": \"Chilean peso\",\n        \"currencyCode\": \"CLP\",\n        \"currencyAmount\": 859.8798\n    },\n    {\n        \"nameLT\": \"Kolumbijos pesas\",\n        \"nameEN\": \"Colombian peso\",\n        \"currencyCode\": \"COP\",\n        \"currencyAmount\": 5010.54872\n    },\n    {\n        \"nameLT\": \"Džibučio frankas\",\n        \"nameEN\": \"Djibouti franc\",\n        \"currencyCode\": \"DJF\",\n        \"currencyAmount\": 193.86084\n    },\n    {\n        \"nameLT\": \"Alžyro dinaras\",\n        \"nameEN\": \"Algerian dinar\",\n        \"currencyCode\": \"DZD\",\n        \"currencyAmount\": 147.61199\n    },\n    {\n        \"nameLT\": \"Egipto svaras\",\n        \"nameEN\": \"Egyptian pound\",\n        \"currencyCode\": \"EGP\",\n        \"currencyAmount\": 33.64392\n    },\n    {\n        \"nameLT\": \"Etiopijos biras\",\n        \"nameEN\": \"Ethiopian birr\",\n        \"currencyCode\": \"ETB\",\n        \"currencyAmount\": 58.68512\n    },\n    {\n        \"nameLT\": \"Gruzijos laris\",\n        \"nameEN\": \"Georgian lari\",\n        \"currencyCode\": \"GEL\",\n        \"currencyAmount\": 2.78515\n    },\n    {\n        \"nameLT\": \"Gvinėjos frankas\",\n        \"nameEN\": \"Guinean franc\",\n        \"currencyCode\": \"GNF\",\n        \"currencyAmount\": 9356.0584\n    },\n    {\n        \"nameLT\": \"Jemeno rialas\",\n        \"nameEN\": \"Yemeni rial\",\n        \"currencyCode\": \"YER\",\n        \"currencyAmount\": 272.43954\n    },\n    {\n        \"nameLT\": \"Irako dinaras\",\n        \"nameEN\": \"Iraqi dinar\",\n        \"currencyCode\": \"IQD\",\n        \"currencyAmount\": 1428.5056\n    },\n    {\n        \"nameLT\": \"Irano rialas\",\n        \"nameEN\": \"Iranian rial\",\n        \"currencyCode\": \"IRR\",\n        \"currencyAmount\": 45732.322\n    },\n    {\n        \"nameLT\": \"Jordanijos dinaras\",\n        \"nameEN\": \"Jordanian dinar\",\n        \"currencyCode\": \"JOD\",\n        \"currencyAmount\": 0.77234\n    },\n    {\n        \"nameLT\": \"Kenijos šilingas\",\n        \"nameEN\": \"Kenyan shilling\",\n        \"currencyCode\": \"KES\",\n        \"currencyAmount\": 144.21156\n    },\n    {\n        \"nameLT\": \"Kirgizijos somas\",\n        \"nameEN\": \"Kyrghyzstan som\",\n        \"currencyCode\": \"KGS\",\n        \"currencyAmount\": 95.21246\n    },\n    {\n        \"nameLT\": \"Kuveito dinaras\",\n        \"nameEN\": \"Kuwaiti dinar\",\n        \"currencyCode\": \"KWD\",\n        \"currencyAmount\": 0.33392\n    },\n    {\n        \"nameLT\": \"Kazachstano tengė\",\n        \"nameEN\": \"Kazakhstan tenge\",\n        \"currencyCode\": \"KZT\",\n        \"currencyAmount\": 490.67316\n    },\n    {\n        \"nameLT\": \"Libano svaras\",\n        \"nameEN\": \"Lebanese pound\",\n        \"currencyCode\": \"LBP\",\n        \"currencyAmount\": 16342.888\n    },\n    {\n        \"nameLT\": \"Libijos dinaras\",\n        \"nameEN\": \"Libyan dinar\",\n        \"currencyCode\": \"LYD\",\n        \"currencyAmount\": 5.20561\n    },\n    {\n        \"nameLT\": \"Šri Lankos rupija\",\n        \"nameEN\": \"Sri Lanka rupee\",\n        \"currencyCode\": \"LKR\",\n        \"currencyAmount\": 355.4932\n    },\n    {\n        \"nameLT\": \"Maroko dirhamas\",\n        \"nameEN\": \"Moroccan dirham\",\n        \"currencyCode\": \"MAD\",\n        \"currencyAmount\": 11.10511\n    },\n    {\n        \"nameLT\": \"Moldovos lėja\",\n        \"nameEN\": \"Moldovan leu\",\n        \"currencyCode\": \"MDL\",\n        \"currencyAmount\": 20.03392\n    },\n    {\n        \"nameLT\": \"Madagaskaro ariaris\",\n        \"nameEN\": \"Malagasy ariary\",\n        \"currencyCode\": \"MGA\",\n        \"currencyAmount\": 4708.0583\n    },\n    {\n        \"nameLT\": \"Makedonijos denaras\",\n        \"nameEN\": \"Macedonian denar\",\n        \"currencyCode\": \"MKD\",\n        \"currencyAmount\": 61.61519\n    },\n    {\n        \"nameLT\": \"Mongolijos tugrikas\",\n        \"nameEN\": \"Mongolian tugrik\",\n        \"currencyCode\": \"MNT\",\n        \"currencyAmount\": 3828.493\n    },\n    {\n        \"nameLT\": \"Mozambiko metikalis\",\n        \"nameEN\": \"Mozambique metical\",\n        \"currencyCode\": \"MZN\",\n        \"currencyAmount\": 69.81386\n    },\n    {\n        \"nameLT\": \"Panamos balboja\",\n        \"nameEN\": \"Panamanian balboa\",\n        \"currencyCode\": \"PAB\",\n        \"currencyAmount\": 1.0888\n    },\n    {\n        \"nameLT\": \"Peru solis\",\n        \"nameEN\": \"Peruvian sol\",\n        \"currencyCode\": \"PEN\",\n        \"currencyAmount\": 4.08463\n    },\n    {\n        \"nameLT\": \"Pakistano rupija\",\n        \"nameEN\": \"Pakistan rupee\",\n        \"currencyCode\": \"PKR\",\n        \"currencyAmount\": 308.8109\n    },\n    {\n        \"nameLT\": \"Kataro rialas\",\n        \"nameEN\": \"Qatari rial\",\n        \"currencyCode\": \"QAR\",\n        \"currencyAmount\": 3.97995\n    },\n    {\n        \"nameLT\": \"Serbijos dinaras\",\n        \"nameEN\": \"Serbian dinar\",\n        \"currencyCode\": \"RSD\",\n        \"currencyAmount\": 117.28554\n    },\n    {\n        \"nameLT\": \"Saudo Arabijos rijalas\",\n        \"nameEN\": \"Saudi riyal\",\n        \"currencyCode\": \"SAR\",\n        \"currencyAmount\": 4.08817\n    },\n    {\n        \"nameLT\": \"Sirijos  svaras\",\n        \"nameEN\": \"Syrian pound\",\n        \"currencyCode\": \"SYP\",\n        \"currencyAmount\": 2735.61\n    },\n    {\n        \"nameLT\": \"Tadžikistano somonis\",\n        \"nameEN\": \"Tajikistan somoni\",\n        \"currencyCode\": \"TJS\",\n        \"currencyAmount\": 11.8897\n    },\n    {\n        \"nameLT\": \"Turkmėnistano naujasis manatas\",\n        \"nameEN\": \"Turkmenistan new manat\",\n        \"currencyCode\": \"TMT\",\n        \"currencyAmount\": 3.80536\n    },\n    {\n        \"nameLT\": \"Tuniso dinaras\",\n        \"nameEN\": \"Tunisian dinar\",\n        \"currencyCode\": \"TND\",\n        \"currencyAmount\": 3.31665\n    },\n    {\n        \"nameLT\": \"Taivano naujasis doleris\",\n        \"nameEN\": \"Taiwan new dollar\",\n        \"currencyCode\": \"TWD\",\n        \"currencyAmount\": 33.20404\n    },\n    {\n        \"nameLT\": \"Tanzanijos šilingas\",\n        \"nameEN\": \"Tanzanian shilling\",\n        \"currencyCode\": \"TZS\",\n        \"currencyAmount\": 2547.792\n    },\n    {\n        \"nameLT\": \"Ukrainos grivina\",\n        \"nameEN\": \"Ukrainian hryvnia\",\n        \"currencyCode\": \"UAH\",\n        \"currencyAmount\": 40.01498\n    },\n    {\n        \"nameLT\": \"Urugvajaus pesas\",\n        \"nameEN\": \"Peso Uruguayo\",\n        \"currencyCode\": \"UYU\",\n        \"currencyAmount\": 42.17467\n    },\n    {\n        \"nameLT\": \"Uzbekistano sumas\",\n        \"nameEN\": \"Uzbekistan sum\",\n        \"currencyCode\": \"UZS\",\n        \"currencyAmount\": 12448.47905\n    },\n    {\n        \"nameLT\": \"Venesuelos bolivaras soberanas\",\n        \"nameEN\": \"Venezuelan bolivar soberano\",\n        \"currencyCode\": \"VES\",\n        \"currencyAmount\": 26.62855\n    },\n    {\n        \"nameLT\": \"Vietnamo dongas\",\n        \"nameEN\": \"Vietnamese dong\",\n        \"currencyCode\": \"VND\",\n        \"currencyAmount\": 25565.024\n    },\n    {\n        \"nameLT\": \"CFA BEAC frankas\",\n        \"nameEN\": \"CFA franc BEAC\",\n        \"currencyCode\": \"XAF\",\n        \"currencyAmount\": 656.52087\n    },\n    {\n        \"nameLT\": \"CFA BCEAO frankas\",\n        \"nameEN\": \"CFA franc BCEAO\",\n        \"currencyCode\": \"XOF\",\n        \"currencyAmount\": 659.2684\n    }\n]"
+				}
+			]
+		}
+	]
+}

@@ -1,7 +1,8 @@
 package com.ukolpakova.soap.controller;
 
-import com.ukolpakova.soap.wsclient.generated.FxRates;
-import com.ukolpakova.soap.wsclient.generated.GetCurrencyListResponse;
+import com.ukolpakova.soap.response.CurrencyRatesResponse;
+import com.ukolpakova.soap.service.RatesService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,14 +10,18 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/rates")
+@RequestMapping("/api/rates")
 public class RatesController {
 
+    private final RatesService ratesService;
+
+    @Autowired
+    public RatesController(RatesService ratesService) {
+        this.ratesService = ratesService;
+    }
+
     @GetMapping
-    public List<Object> getCurrencyList() {
-        FxRates fxRatesService = new FxRates();
-        GetCurrencyListResponse.GetCurrencyListResult currencyList = fxRatesService.getFxRatesSoap().getCurrencyList();
-        List<Object> currencyListContent = currencyList.getContent();
-        return currencyListContent;
+    public List<CurrencyRatesResponse> getCurrencyRates() {
+        return ratesService.getCurrencyRates();
     }
 }

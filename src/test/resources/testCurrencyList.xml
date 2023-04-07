@@ -1,0 +1,37 @@
+<CcyTbl xmlns="http://www.lb.lt/WebServices/FxRates">
+    <CcyNtry>
+        <Ccy>ADP</Ccy>
+        <CcyNm lang="LT">Andoros peseta</CcyNm>
+        <CcyNm lang="EN">Andorran peseta</CcyNm>
+        <CcyNbr>020</CcyNbr>
+        <CcyMnrUnts>0</CcyMnrUnts>
+    </CcyNtry>
+    <CcyNtry>
+        <Ccy>AED</Ccy>
+        <CcyNm lang="LT">Jungtinių Arabų Emiratų dirhamas</CcyNm>
+        <CcyNm lang="EN">UAE dirham</CcyNm>
+        <CcyNbr>784</CcyNbr>
+        <CcyMnrUnts>2</CcyMnrUnts>
+    </CcyNtry>
+    <CcyNtry>
+        <Ccy>AFN</Ccy>
+        <CcyNm lang="LT">Afganistano afganis</CcyNm>
+        <CcyNm lang="EN">Afghani</CcyNm>
+        <CcyNbr>971</CcyNbr>
+        <CcyMnrUnts>2</CcyMnrUnts>
+    </CcyNtry>
+    <CcyNtry>
+        <Ccy>ALL</Ccy>
+        <CcyNm lang="LT">Albanijos lekas</CcyNm>
+        <CcyNm lang="EN">Albanian lek</CcyNm>
+        <CcyNbr>008</CcyNbr>
+        <CcyMnrUnts>2</CcyMnrUnts>
+    </CcyNtry>
+    <CcyNtry>
+        <Ccy>AMD</Ccy>
+        <CcyNm lang="LT">Armėnijos dramas</CcyNm>
+        <CcyNm lang="EN">Armenian dram</CcyNm>
+        <CcyNbr>051</CcyNbr>
+        <CcyMnrUnts>2</CcyMnrUnts>
+    </CcyNtry>
+</CcyTbl>

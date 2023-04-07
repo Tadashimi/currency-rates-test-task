@@ -9,6 +9,7 @@ import jakarta.xml.ws.WebEndpoint;
 import jakarta.xml.ws.WebServiceClient;
 import jakarta.xml.ws.WebServiceException;
 import jakarta.xml.ws.WebServiceFeature;
+import org.springframework.stereotype.Component;
 
 
 /**
@@ -20,6 +21,7 @@ import jakarta.xml.ws.WebServiceFeature;
  * 
  */
 @WebServiceClient(name = "FxRates", targetNamespace = "http://www.lb.lt/WebServices/FxRates", wsdlLocation = "https://www.lb.lt/webservices/fxrates/FxRates.asmx?WSDL")
+@Component
 public class FxRates
     extends Service
 {
