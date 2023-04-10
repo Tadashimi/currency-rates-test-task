@@ -1,5 +1,8 @@
 package com.ukolpakova.soap.model;
 
+import com.ukolpakova.soap.constants.CurrencyNameLanguage;
+
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -14,22 +17,13 @@ public class Currency {
     private String currencyCode;
 
     /**
-     * Currency name in Lithuanian.
+     * Currency names in different languages.
      */
-    private String nameLT;
+    private Map<CurrencyNameLanguage, String> currencyNames;
 
-    /**
-     * Currency name in English.
-     */
-    private String nameEN;
-
-    public Currency() {
-    }
-
-    public Currency(String currencyCode, String nameLT, String nameEN) {
+    public Currency(String currencyCode, Map<CurrencyNameLanguage, String> currencyNames) {
         this.currencyCode = currencyCode;
-        this.nameLT = nameLT;
-        this.nameEN = nameEN;
+        this.currencyNames = currencyNames;
     }
 
     public String getCurrencyCode() {
@@ -40,20 +34,12 @@ public class Currency {
         this.currencyCode = currencyCode;
     }
 
-    public String getNameLT() {
-        return nameLT;
+    public Map<CurrencyNameLanguage, String> getCurrencyNames() {
+        return currencyNames;
     }
 
-    public void setNameLT(String nameLT) {
-        this.nameLT = nameLT;
-    }
-
-    public String getNameEN() {
-        return nameEN;
-    }
-
-    public void setNameEN(String nameEN) {
-        this.nameEN = nameEN;
+    public void setCurrencyNames(Map<CurrencyNameLanguage, String> currencyNames) {
+        this.currencyNames = currencyNames;
     }
 
     @Override
@@ -61,11 +47,11 @@ public class Currency {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Currency currency = (Currency) o;
-        return Objects.equals(currencyCode, currency.currencyCode) && Objects.equals(nameLT, currency.nameLT) && Objects.equals(nameEN, currency.nameEN);
+        return Objects.equals(currencyCode, currency.currencyCode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(currencyCode, nameLT, nameEN);
+        return Objects.hash(currencyCode);
     }
 }

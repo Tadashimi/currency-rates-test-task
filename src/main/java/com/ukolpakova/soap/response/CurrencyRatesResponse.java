@@ -1,55 +1,33 @@
 package com.ukolpakova.soap.response;
 
+import com.ukolpakova.soap.constants.CurrencyNameLanguage;
 import com.ukolpakova.soap.model.Currency;
+
+import java.util.Map;
 
 /**
  * Represents the available currency rates.
  */
 public class CurrencyRatesResponse {
     /**
-     * Currency name in Lithuanian.
-     */
-    private String nameLT;
-
-    /**
-     * Currency name in English.
-     */
-    private String nameEN;
-
-    /**
      * ISO 4217 currency code for this currency.
      */
     private String currencyCode;
+
+    /**
+     * Currency names.
+     */
+    private Map<CurrencyNameLanguage, String> currencyNames;
 
     /**
      * Currency amount in 1 euro.
      */
     private double currencyAmount;
 
-    public CurrencyRatesResponse() {
-    }
-
     public CurrencyRatesResponse(Currency currency, double currencyAmount) {
-        this.nameLT = currency.getNameLT();
-        this.nameEN = currency.getNameEN();
         this.currencyCode = currency.getCurrencyCode();
+        this.currencyNames = currency.getCurrencyNames();
         this.currencyAmount = currencyAmount;
-    }
-
-    public String getNameLT() {
-        return nameLT;
-    }
-
-    public void setNameLT(String nameLT) {
-        this.nameLT = nameLT;
-    }
-
-    public String getNameEN() {
-        return nameEN;
-    }
-
-    public void setNameEN(String nameEN) {
-        this.nameEN = nameEN;
     }
 
     public String getCurrencyCode() {
@@ -58,6 +36,14 @@ public class CurrencyRatesResponse {
 
     public void setCurrencyCode(String currencyCode) {
         this.currencyCode = currencyCode;
+    }
+
+    public Map<CurrencyNameLanguage, String> getCurrencyNames() {
+        return currencyNames;
+    }
+
+    public void setCurrencyNames(Map<CurrencyNameLanguage, String> currencyNames) {
+        this.currencyNames = currencyNames;
     }
 
     public double getCurrencyAmount() {

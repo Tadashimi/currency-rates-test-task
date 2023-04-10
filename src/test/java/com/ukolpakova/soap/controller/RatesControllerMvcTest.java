@@ -1,5 +1,6 @@
 package com.ukolpakova.soap.controller;
 
+import com.ukolpakova.soap.constants.CurrencyNameLanguage;
 import com.ukolpakova.soap.exception.CurrencyParseException;
 import com.ukolpakova.soap.exception.EntityNotFoundException;
 import com.ukolpakova.soap.model.Currency;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
+import java.util.Map;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -32,11 +34,12 @@ public class RatesControllerMvcTest {
 
     @Test
     public void getCurrencyRates_whenServiceReturnsList_thenStatusIsOkAndBodyContainsList() throws Exception {
-        CurrencyRatesResponse ratesResponse = new CurrencyRatesResponse(new Currency("a", "b", "c"), 10);
+        Currency testCurrency = new Currency("a", Map.of(CurrencyNameLanguage.EN, "enName"));
+        CurrencyRatesResponse ratesResponse = new CurrencyRatesResponse(testCurrency, 10);
         when(service.getCurrencyRates()).thenReturn(Collections.singletonList(ratesResponse));
         this.mockMvc.perform(get(apiRatesUrl)).andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string("[{\"nameLT\":\"b\",\"nameEN\":\"c\",\"currencyCode\":\"a\",\"currencyAmount\":10.0}]"));
+                .andExpect(content().string("[{\"currencyCode\":\"a\",\"currencyNames\":{\"EN\":\"enName\"},\"currencyAmount\":10.0}]"));
     }
 
     @Test

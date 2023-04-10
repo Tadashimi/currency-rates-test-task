@@ -1,5 +1,6 @@
 package com.ukolpakova.soap.parser;
 
+import com.ukolpakova.soap.constants.CurrencyNameLanguage;
 import com.ukolpakova.soap.exception.CurrencyParseException;
 import com.ukolpakova.soap.model.Currency;
 import com.ukolpakova.soap.wsclient.generated.GetCurrencyListResponse;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
@@ -29,14 +31,14 @@ class CurrencyParserTest {
 
     @Mock
     private GetCurrencyListResponse.GetCurrencyListResult mockedCurrencyList;
+    @MockBean
+    private final CurrencyParser underTest = new CurrencyParser();
 
-    private CurrencyParser underTest;
     private AutoCloseable autoCloseable;
 
     @BeforeEach
     public void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
-        underTest = new CurrencyParser(mockedCurrencyList);
     }
 
     @AfterEach
@@ -49,7 +51,7 @@ class CurrencyParserTest {
         Element currencyListXml = prepareTestCurrencyListXml();
         when(mockedCurrencyList.getContent()).thenReturn(Collections.singletonList(currencyListXml));
 
-        Map<String, Currency> actualCurrencyMap = underTest.parseCurrencyList();
+        Map<String, Currency> actualCurrencyMap = underTest.parseCurrencyList(mockedCurrencyList);
 
         Assertions.assertNotNull(actualCurrencyMap);
         Assertions.assertTrue(actualCurrencyMap.keySet().containsAll(getExpectedCurrencyCodes()));
@@ -61,7 +63,7 @@ class CurrencyParserTest {
         when(mockedCurrencyList.getContent()).thenReturn(Collections.emptyList());
 
         try {
-            underTest.parseCurrencyList();
+            underTest.parseCurrencyList(mockedCurrencyList);
             fail();
         } catch (Exception exception) {
             Assertions.assertTrue(exception instanceof CurrencyParseException);
@@ -74,7 +76,7 @@ class CurrencyParserTest {
         when(mockedCurrencyList.getContent()).thenReturn(Collections.singletonList(null));
 
         try {
-            underTest.parseCurrencyList();
+            underTest.parseCurrencyList(mockedCurrencyList);
             fail();
         } catch (Exception exception) {
             Assertions.assertTrue(exception instanceof CurrencyParseException);
@@ -94,11 +96,11 @@ class CurrencyParserTest {
     }
 
     private Set<Currency> getExpectedValues() {
-        return Set.of(new Currency("ADP", "Andoros peseta", "Andorran peseta"),
-                new Currency("AED", "Jungtinių Arabų Emiratų dirhamas", "UAE dirham"),
-                new Currency("AFN", "Afganistano afganis", "Afghani"),
-                new Currency("ALL", "Albanijos lekas", "Albanian lek"),
-                new Currency("AMD", "Armėnijos dramas", "Armenian dram")
-                );
+        return Set.of(new Currency("ADP", Map.of(CurrencyNameLanguage.LT, "Andoros peseta", CurrencyNameLanguage.EN, "Andorran peseta")),
+                new Currency("AED", Map.of(CurrencyNameLanguage.LT, "Jungtinių Arabų Emiratų dirhamas", CurrencyNameLanguage.EN, "UAE dirham")),
+                new Currency("AFN", Map.of(CurrencyNameLanguage.LT, "Afganistano afganis", CurrencyNameLanguage.EN, "Afghani")),
+                new Currency("ALL", Map.of(CurrencyNameLanguage.LT, "Albanijos lekas", CurrencyNameLanguage.EN, "Albanian lek")),
+                new Currency("AMD", Map.of(CurrencyNameLanguage.LT, "Armėnijos dramas", CurrencyNameLanguage.EN, "Armenian dram"))
+        );
     }
 }

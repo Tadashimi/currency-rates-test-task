@@ -1,6 +1,8 @@
 package com.ukolpakova.soap.controller;
 
+import com.ukolpakova.soap.constants.CurrencyNameLanguage;
 import com.ukolpakova.soap.exception.CurrencyParseException;
+import com.ukolpakova.soap.model.Currency;
 import com.ukolpakova.soap.response.CurrencyRatesResponse;
 import com.ukolpakova.soap.service.RatesService;
 import org.junit.jupiter.api.AfterEach;
@@ -13,6 +15,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.when;
@@ -63,11 +66,7 @@ class RatesControllerTest {
     }
 
     private CurrencyRatesResponse generateTestRatesResponse() {
-        CurrencyRatesResponse testRatesResponse = new CurrencyRatesResponse();
-        testRatesResponse.setNameEN("Andorran peseta");
-        testRatesResponse.setNameLT("Andoros peseta");
-        testRatesResponse.setCurrencyCode("ADP");
-        testRatesResponse.setCurrencyAmount(12.0);
-        return testRatesResponse;
+        Currency currency = new Currency("ADP", Map.of(CurrencyNameLanguage.EN, "Currency"));
+        return new CurrencyRatesResponse(currency, 12.0);
     }
 }
