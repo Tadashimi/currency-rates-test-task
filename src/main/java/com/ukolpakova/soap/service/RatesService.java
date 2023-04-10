@@ -11,29 +11,38 @@ import com.ukolpakova.soap.wsclient.generated.FxRates;
 import com.ukolpakova.soap.wsclient.generated.FxRatesSoap;
 import com.ukolpakova.soap.wsclient.generated.GetCurrencyListResponse;
 import com.ukolpakova.soap.wsclient.generated.GetCurrentFxRatesResponse;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
+/**
+ * Service adapter to convert the data from SOAP service to REST response
+ */
 @Service
 public class RatesService {
 
     private final Logger logger = LoggerFactory.getLogger(RatesService.class);
+    private final CurrencyParser currencyParser;
+    private final CurrencyRatesParser currencyRatesParser;
 
     private FxRatesSoap fxRatesSoap;
 
-    public RatesService() {
+    @Autowired
+    public RatesService(CurrencyParser currencyParser, CurrencyRatesParser currencyRatesParser) {
+        this.currencyParser = currencyParser;
+        this.currencyRatesParser = currencyRatesParser;
     }
 
-    @Autowired
-    public RatesService(FxRates soapFxRatesService) {
-        this.fxRatesSoap = soapFxRatesService.getFxRatesSoap();
+    @PostConstruct
+    public void initSoapServer() {
+        fxRatesSoap = new FxRates().getFxRatesSoap();
     }
 
     public List<CurrencyRatesResponse> getCurrencyRates() {
@@ -43,14 +52,10 @@ public class RatesService {
     }
 
     private Map<String, Currency> getCurrencyMap() {
+        logger.debug("Getting the currency list from SOAP server");
         GetCurrencyListResponse.GetCurrencyListResult currencyList = fxRatesSoap.getCurrencyList();
-        if (Objects.isNull(currencyList)) {
-            logger.error("Soap server return null for currency list");
-            throw new EntityNotFoundException("Currency list is not found");
-        }
-        CurrencyParser currencyParser = getCurrencyParser(currencyList);
         try {
-            return currencyParser.parseCurrencyList();
+            return currencyParser.parseCurrencyList(currencyList);
         } catch (RuntimeException ex) {
             logger.error("Currency list parsing failed. See details in exception: ", ex);
             throw new CurrencyParseException("Error while parsing currency list", ex);
@@ -58,14 +63,10 @@ public class RatesService {
     }
 
     private List<CurrencyRate> getCurrentEUFxRates() {
+        logger.debug("Getting the currency rates from SOAP server");
         GetCurrentFxRatesResponse.GetCurrentFxRatesResult currentEUFxRates = fxRatesSoap.getCurrentFxRates("EU");
-        if (Objects.isNull(currentEUFxRates)) {
-            logger.error("Soap server return null for currency rates");
-            throw new EntityNotFoundException("Currency rates are not found");
-        }
-        CurrencyRatesParser currencyRateParser = getCurrencyRateParser(currentEUFxRates);
         try {
-            return currencyRateParser.parseCurrencyRates();
+            return currencyRatesParser.parseCurrencyRates(currentEUFxRates);
         } catch (RuntimeException ex) {
             logger.error("Currency rates parsing failed. See details in exception: ", ex);
             throw new CurrencyParseException("Error while parsing currencies rates", ex);
@@ -74,23 +75,19 @@ public class RatesService {
 
     private List<CurrencyRatesResponse> mergeCurrenciesDataToCurrencyRatesResponse(Map<String, Currency> currenciesMap,
                                                                                    List<CurrencyRate> currentEUFxRates) {
-        List<CurrencyRatesResponse> responses = new ArrayList<>();
-        for (CurrencyRate currencyRate : currentEUFxRates) {
-            Currency currency = currenciesMap.get(currencyRate.getCurrencyCode());
-            if (Objects.isNull(currency)) {
-                logger.error("Could not find the data for currency code {}", currencyRate.getCurrencyCode());
-                throw new EntityNotFoundException("Currency info is not found for currency " + currencyRate.getCurrencyCode());
-            }
-            responses.add(new CurrencyRatesResponse(currency, currencyRate.getCurrencyAmount()));
+        logger.debug("Merging parsed SOAP responses to currency rates response for REST");
+        return currentEUFxRates.stream()
+                .map(currencyRate -> createCurrencyRatesResponseFromCurrencyAndRate(currencyRate,
+                        currenciesMap.get(currencyRate.getCurrencyCode())))
+                .collect(Collectors.toList());
+    }
+
+    private CurrencyRatesResponse createCurrencyRatesResponseFromCurrencyAndRate(CurrencyRate currencyRate, Currency currency) {
+        if (Objects.isNull(currency)) {
+            String currencyCode = currencyRate.getCurrencyCode();
+            logger.error("Could not find the data for currency code {}", currencyCode);
+            throw new EntityNotFoundException("Currency info is not found for currency " + currencyCode);
         }
-        return responses;
-    }
-
-    protected CurrencyParser getCurrencyParser(GetCurrencyListResponse.GetCurrencyListResult currencyList) {
-        return new CurrencyParser(currencyList);
-    }
-
-    protected CurrencyRatesParser getCurrencyRateParser(GetCurrentFxRatesResponse.GetCurrentFxRatesResult currentEUFxRates) {
-        return new CurrencyRatesParser(currentEUFxRates);
+        return new CurrencyRatesResponse(currency, currencyRate.getCurrencyAmount());
     }
 }

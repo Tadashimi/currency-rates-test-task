@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Declare the main application controller.
+ */
 @RestController
 @RequestMapping("/api/rates")
 public class RatesController {

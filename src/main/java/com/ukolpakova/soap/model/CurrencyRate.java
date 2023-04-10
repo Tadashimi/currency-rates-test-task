@@ -17,9 +17,6 @@ public class CurrencyRate {
      */
     private double currencyAmount;
 
-    public CurrencyRate() {
-    }
-
     public CurrencyRate(String currencyCode, double currencyAmount) {
         this.currencyCode = currencyCode;
         this.currencyAmount = currencyAmount;

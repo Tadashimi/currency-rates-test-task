@@ -21,7 +21,6 @@ import org.springframework.stereotype.Component;
  * 
  */
 @WebServiceClient(name = "FxRates", targetNamespace = "http://www.lb.lt/WebServices/FxRates", wsdlLocation = "https://www.lb.lt/webservices/fxrates/FxRates.asmx?WSDL")
-@Component
 public class FxRates
     extends Service
 {
