@@ -2,19 +2,37 @@
     <FxRate>
         <Tp>EU</Tp>
         <Dt>2023-04-06</Dt>
-        <CcyAmt><Ccy>EUR</Ccy><Amt>1</Amt></CcyAmt>
-        <CcyAmt><Ccy>AUD</Ccy><Amt>1.6312</Amt></CcyAmt>
+        <CcyAmt>
+            <Ccy>EUR</Ccy>
+            <Amt>1</Amt>
+        </CcyAmt>
+        <CcyAmt>
+            <Ccy>AUD</Ccy>
+            <Amt>1.6312</Amt>
+        </CcyAmt>
     </FxRate>
     <FxRate>
         <Tp>EU</Tp>
         <Dt>2023-04-06</Dt>
-        <CcyAmt><Ccy>EUR</Ccy><Amt>1</Amt></CcyAmt>
-        <CcyAmt><Ccy>BGN</Ccy><Amt>1.9558</Amt></CcyAmt>
+        <CcyAmt>
+            <Ccy>EUR</Ccy>
+            <Amt>1</Amt>
+        </CcyAmt>
+        <CcyAmt>
+            <Ccy>BGN</Ccy>
+            <Amt>1.9558</Amt>
+        </CcyAmt>
     </FxRate>
     <FxRate>
         <Tp>EU</Tp>
         <Dt>2023-04-06</Dt>
-        <CcyAmt><Ccy>EUR</Ccy><Amt>1</Amt></CcyAmt>
-        <CcyAmt><Ccy>BRL</Ccy><Amt>5.5096</Amt></CcyAmt>
+        <CcyAmt>
+            <Ccy>EUR</Ccy>
+            <Amt>1</Amt>
+        </CcyAmt>
+        <CcyAmt>
+            <Ccy>BRL</Ccy>
+            <Amt>5.5096</Amt>
+        </CcyAmt>
     </FxRate>
 </FxRates>

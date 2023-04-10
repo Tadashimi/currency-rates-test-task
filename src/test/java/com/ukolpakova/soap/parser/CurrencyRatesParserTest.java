@@ -30,13 +30,13 @@ class CurrencyRatesParserTest {
     @Mock
     private GetCurrentFxRatesResponse.GetCurrentFxRatesResult mockedCurrentFxRatesResult;
 
-    private CurrencyRatesParser underTest;
+    private final CurrencyRatesParser underTest = new CurrencyRatesParser();
+
     private AutoCloseable autoCloseable;
 
     @BeforeEach
     public void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
-        underTest = new CurrencyRatesParser(mockedCurrentFxRatesResult);
     }
 
     @AfterEach
@@ -49,7 +49,7 @@ class CurrencyRatesParserTest {
         Element currentFxRatesXml = prepareTestCurrentFxRatesXml();
         when(mockedCurrentFxRatesResult.getContent()).thenReturn(Collections.singletonList(currentFxRatesXml));
 
-        List<CurrencyRate> actualCurrencyRates = underTest.parseCurrencyRates();
+        List<CurrencyRate> actualCurrencyRates = underTest.parseCurrencyRates(mockedCurrentFxRatesResult);
 
         Assertions.assertNotNull(actualCurrencyRates);
         Assertions.assertTrue(actualCurrencyRates.containsAll(getExpectedCurrencyCodes()));
@@ -60,7 +60,7 @@ class CurrencyRatesParserTest {
         when(mockedCurrentFxRatesResult.getContent()).thenReturn(Collections.emptyList());
 
         try {
-            underTest.parseCurrencyRates();
+            underTest.parseCurrencyRates(mockedCurrentFxRatesResult);
             fail();
         } catch (Exception exception) {
             Assertions.assertTrue(exception instanceof CurrencyParseException);
@@ -73,7 +73,7 @@ class CurrencyRatesParserTest {
         when(mockedCurrentFxRatesResult.getContent()).thenReturn(Collections.singletonList(null));
 
         try {
-            underTest.parseCurrencyRates();
+            underTest.parseCurrencyRates(mockedCurrentFxRatesResult);
             fail();
         } catch (Exception exception) {
             Assertions.assertTrue(exception instanceof CurrencyParseException);
