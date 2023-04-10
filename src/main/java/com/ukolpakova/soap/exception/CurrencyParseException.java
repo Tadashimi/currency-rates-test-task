@@ -1,15 +1,16 @@
 package com.ukolpakova.soap.exception;
 
+import java.util.Locale;
+
 /**
  * Custom exception for any error during the XML parsing.
  */
-public class CurrencyParseException extends RuntimeException {
-
-    public CurrencyParseException(String message) {
-        super(message);
+public class CurrencyParseException extends AbstractCurrencyException {
+    public CurrencyParseException(String messageKey) {
+        super(messageKey);
     }
 
-    public CurrencyParseException(String message, Throwable cause) {
-        super(message, cause);
+    public CurrencyParseException(String messageKey, Locale locale) {
+        super(messageKey, locale);
     }
 }

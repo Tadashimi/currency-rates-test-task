@@ -1,7 +1,7 @@
 package com.ukolpakova.soap.handler;
 
 import com.ukolpakova.soap.exception.CurrencyParseException;
-import com.ukolpakova.soap.exception.EntityNotFoundException;
+import com.ukolpakova.soap.exception.EntityNotFoundCurrencyException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -23,14 +23,14 @@ public class CurrencyParseExceptionHandler extends ResponseEntityExceptionHandle
     @ExceptionHandler(value = CurrencyParseException.class)
     private ResponseEntity<Object> handleParseException(RuntimeException exception, WebRequest request) {
         logger.error(exception.getMessage());
-        return handleExceptionInternal(exception, exception.getMessage(),
+        return handleExceptionInternal(exception, exception.getLocalizedMessage(),
                 new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
-    @ExceptionHandler(value = EntityNotFoundException.class)
+    @ExceptionHandler(value = EntityNotFoundCurrencyException.class)
     private ResponseEntity<Object> handleEntityNotFoundException(RuntimeException exception, WebRequest request) {
         logger.error(exception.getMessage());
-        return handleExceptionInternal(exception, exception.getMessage(),
+        return handleExceptionInternal(exception, exception.getLocalizedMessage(),
                 new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 }

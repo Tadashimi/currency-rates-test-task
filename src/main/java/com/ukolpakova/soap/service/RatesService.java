@@ -1,7 +1,7 @@
 package com.ukolpakova.soap.service;
 
 import com.ukolpakova.soap.exception.CurrencyParseException;
-import com.ukolpakova.soap.exception.EntityNotFoundException;
+import com.ukolpakova.soap.exception.EntityNotFoundCurrencyException;
 import com.ukolpakova.soap.model.Currency;
 import com.ukolpakova.soap.model.CurrencyRate;
 import com.ukolpakova.soap.parser.CurrencyParser;
@@ -21,6 +21,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static com.ukolpakova.soap.localization.EntityNotFoundErrorMessageConstant.CURRENCY_INFO_NOT_FOUND;
+import static com.ukolpakova.soap.localization.ParseCurrencyListErrorMessageConstant.CURRENCY_LIST_GENERAL_ERROR;
+import static com.ukolpakova.soap.localization.ParseCurrencyRatesErrorMessageConstant.CURRENCY_RATES_GENERAL_ERROR;
 
 /**
  * Service adapter to convert the data from SOAP service to REST response
@@ -58,7 +62,7 @@ public class RatesService {
             return currencyParser.parseCurrencyList(currencyList);
         } catch (RuntimeException ex) {
             logger.error("Currency list parsing failed. See details in exception: ", ex);
-            throw new CurrencyParseException("Error while parsing currency list", ex);
+            throw new CurrencyParseException(CURRENCY_LIST_GENERAL_ERROR);
         }
     }
 
@@ -69,7 +73,7 @@ public class RatesService {
             return currencyRatesParser.parseCurrencyRates(currentEUFxRates);
         } catch (RuntimeException ex) {
             logger.error("Currency rates parsing failed. See details in exception: ", ex);
-            throw new CurrencyParseException("Error while parsing currencies rates", ex);
+            throw new CurrencyParseException(CURRENCY_RATES_GENERAL_ERROR);
         }
     }
 
@@ -86,7 +90,7 @@ public class RatesService {
         if (Objects.isNull(currency)) {
             String currencyCode = currencyRate.getCurrencyCode();
             logger.error("Could not find the data for currency code {}", currencyCode);
-            throw new EntityNotFoundException("Currency info is not found for currency " + currencyCode);
+            throw new EntityNotFoundCurrencyException(CURRENCY_INFO_NOT_FOUND);
         }
         return new CurrencyRatesResponse(currency, currencyRate.getCurrencyAmount());
     }

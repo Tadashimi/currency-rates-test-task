@@ -1,6 +1,6 @@
 package com.ukolpakova.soap.parser;
 
-import com.ukolpakova.soap.constants.CurrencyNameLanguage;
+import com.ukolpakova.soap.constant.CurrencyNameLanguage;
 import com.ukolpakova.soap.exception.CurrencyParseException;
 import com.ukolpakova.soap.model.Currency;
 import com.ukolpakova.soap.wsclient.generated.GetCurrencyListResponse;
@@ -67,7 +67,7 @@ class CurrencyParserTest {
             fail();
         } catch (Exception exception) {
             Assertions.assertTrue(exception instanceof CurrencyParseException);
-            Assertions.assertEquals("Error while parsing currency list: Document is empty", exception.getMessage());
+            Assertions.assertEquals("Error while parsing currency list. Document is empty", exception.getMessage());
         }
     }
 
@@ -80,7 +80,7 @@ class CurrencyParserTest {
             fail();
         } catch (Exception exception) {
             Assertions.assertTrue(exception instanceof CurrencyParseException);
-            Assertions.assertEquals("Error while parsing currency list: FxRates is null", exception.getMessage());
+            Assertions.assertEquals("Error while parsing currency list. FxRates is null", exception.getMessage());
         }
     }
 

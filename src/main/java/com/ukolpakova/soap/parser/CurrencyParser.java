@@ -1,6 +1,6 @@
 package com.ukolpakova.soap.parser;
 
-import com.ukolpakova.soap.constants.CurrencyNameLanguage;
+import com.ukolpakova.soap.constant.CurrencyNameLanguage;
 import com.ukolpakova.soap.exception.CurrencyParseException;
 import com.ukolpakova.soap.model.Currency;
 import com.ukolpakova.soap.wsclient.generated.GetCurrencyListResponse;
@@ -17,6 +17,16 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.ukolpakova.soap.localization.ParseCurrencyListErrorMessageConstant.ATTRIBUTE_LANG_NOT_FOUND;
+import static com.ukolpakova.soap.localization.ParseCurrencyListErrorMessageConstant.CURRENCY_CODE_NOT_EXIST;
+import static com.ukolpakova.soap.localization.ParseCurrencyListErrorMessageConstant.CURRENCY_CODE_NOT_FOUND;
+import static com.ukolpakova.soap.localization.ParseCurrencyListErrorMessageConstant.CURRENCY_LIST_RESULT_IS_NULL;
+import static com.ukolpakova.soap.localization.ParseCurrencyListErrorMessageConstant.CURRENCY_NAME_LANGUAGE_NOT_EXIST;
+import static com.ukolpakova.soap.localization.ParseCurrencyListErrorMessageConstant.CURRENCY_NAME_LANGUAGE_NOT_SUPPORTED;
+import static com.ukolpakova.soap.localization.ParseCurrencyListErrorMessageConstant.CURRENCY_NAME_NOT_EXIST;
+import static com.ukolpakova.soap.localization.ParseCurrencyListErrorMessageConstant.DOCUMENT_IS_EMPTY;
+import static com.ukolpakova.soap.localization.ParseCurrencyListErrorMessageConstant.FXRATES_IS_NULL;
+
 /**
  * Parser for currency list.
  */
@@ -26,7 +36,6 @@ public class CurrencyParser {
     private static final String currencyTag = "Ccy";
     private static final String currencyNameTag = "CcyNm";
     private static final String langAttributeTag = "lang";
-    private static final String ERROR_PARSING_CURRENCY_LIST = "Error while parsing currency list: ";
 
     private final Logger logger = LoggerFactory.getLogger(CurrencyParser.class);
 
@@ -40,18 +49,18 @@ public class CurrencyParser {
     public Map<String, Currency> parseCurrencyList(GetCurrencyListResponse.GetCurrencyListResult currencyList) {
         if (Objects.isNull(currencyList)) {
             logger.error("currencyList is null");
-            throw new CurrencyParseException(ERROR_PARSING_CURRENCY_LIST + "GetCurrencyListResult is null. Check the SOAP response");
+            throw new CurrencyParseException(CURRENCY_LIST_RESULT_IS_NULL);
         }
         List<Object> content = currencyList.getContent();
         logger.debug("Starting parsing currency list content: {}", content);
         if (content.isEmpty()) {
             logger.error("Content is empty");
-            throw new CurrencyParseException(ERROR_PARSING_CURRENCY_LIST + "Document is empty");
+            throw new CurrencyParseException(DOCUMENT_IS_EMPTY);
         }
         Element fxRates = (Element) content.get(0);
         if (Objects.isNull(fxRates)) {
             logger.error("FxRates is null");
-            throw new CurrencyParseException(ERROR_PARSING_CURRENCY_LIST + "FxRates is null");
+            throw new CurrencyParseException(FXRATES_IS_NULL);
         }
         return parseFxRates(fxRates);
     }
@@ -79,12 +88,12 @@ public class CurrencyParser {
         NodeList currencyCodeNodeList = fxRateNode.getElementsByTagName(currencyTag);
         if (currencyCodeNodeList.getLength() == 0) {
             logger.error("{} is not found", currencyTag);
-            throw new CurrencyParseException(ERROR_PARSING_CURRENCY_LIST + "Currency code node is not found");
+            throw new CurrencyParseException(CURRENCY_CODE_NOT_FOUND);
         }
         String currencyCode = currencyCodeNodeList.item(0).getTextContent();
         if (Objects.isNull(currencyCode) || currencyCode.isEmpty()) {
             logger.error("currency code is not found");
-            throw new CurrencyParseException(ERROR_PARSING_CURRENCY_LIST + "Currency code does not exist");
+            throw new CurrencyParseException(CURRENCY_CODE_NOT_EXIST);
         }
         return currencyCode;
     }
@@ -98,22 +107,22 @@ public class CurrencyParser {
             Node langItem = item.getAttributes().getNamedItem(langAttributeTag);
             if (Objects.isNull(langItem)) {
                 logger.error("{} attribute is not found", langAttributeTag);
-                throw new CurrencyParseException(ERROR_PARSING_CURRENCY_LIST + "lang attribute is not found");
+                throw new CurrencyParseException(ATTRIBUTE_LANG_NOT_FOUND);
             }
             String nameLanguage = langItem.getTextContent();
             if (Objects.isNull(nameLanguage) || nameLanguage.isEmpty()) {
                 logger.error("nameLanguage attribute is not found");
-                throw new CurrencyParseException(ERROR_PARSING_CURRENCY_LIST + "currency name language is not set");
+                throw new CurrencyParseException(CURRENCY_NAME_LANGUAGE_NOT_EXIST);
             }
             Optional<CurrencyNameLanguage> currencyNameLanguageOptional = CurrencyNameLanguage.getCurrencyNameLanguageIfExist(nameLanguage);
             if (currencyNameLanguageOptional.isEmpty()) {
                 logger.error("unsupported language: {}", nameLanguage);
-                throw new CurrencyParseException(ERROR_PARSING_CURRENCY_LIST + "currency name language is not defined in app");
+                throw new CurrencyParseException(CURRENCY_NAME_LANGUAGE_NOT_SUPPORTED);
             }
             String currencyName = item.getTextContent();
             if (Objects.isNull(currencyName) || currencyName.isEmpty()) {
                 logger.error("currency name is not found for language {}", nameLanguage);
-                throw new CurrencyParseException(ERROR_PARSING_CURRENCY_LIST + "currency name is not set");
+                throw new CurrencyParseException(CURRENCY_NAME_NOT_EXIST);
             }
             currencyNames.put(currencyNameLanguageOptional.get(), currencyName);
         }

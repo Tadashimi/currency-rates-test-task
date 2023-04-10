@@ -16,6 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static com.ukolpakova.soap.localization.ParseCurrencyRatesErrorMessageConstant.CURRENCY_AMOUNT_NOT_FOUND;
+import static com.ukolpakova.soap.localization.ParseCurrencyRatesErrorMessageConstant.CURRENCY_AMOUNT_VALUE_NOT_FOUND;
+import static com.ukolpakova.soap.localization.ParseCurrencyRatesErrorMessageConstant.CURRENCY_AMOUNT_VALUE_NOT_NUMBER;
+import static com.ukolpakova.soap.localization.ParseCurrencyRatesErrorMessageConstant.CURRENCY_CODE_NOT_FOUND;
+import static com.ukolpakova.soap.localization.ParseCurrencyRatesErrorMessageConstant.CURRENCY_CODE_VALUE_NOT_FOUND;
+import static com.ukolpakova.soap.localization.ParseCurrencyRatesErrorMessageConstant.CURRENCY_RATES_RESULT_IS_NULL;
+import static com.ukolpakova.soap.localization.ParseCurrencyRatesErrorMessageConstant.DOCUMENT_IS_EMPTY;
+import static com.ukolpakova.soap.localization.ParseCurrencyRatesErrorMessageConstant.FXRATES_IS_NULL;
+
 /**
  * Parser for currency rates.
  */
@@ -24,9 +33,8 @@ public class CurrencyRatesParser {
     private static final String currencyCodeEUR = "EUR";
     private static final String fxRateTag = "FxRate";
     private static final String currencyAmountTag = "CcyAmt";
-    private static final String ERROR_PARSING_CURRENCY_RATES = "Error while parsing currency rates: ";
-    public static final String currencyCodeTag = "Ccy";
-    public static final String amountTag = "Amt";
+    private static final String currencyCodeTag = "Ccy";
+    private static final String amountTag = "Amt";
 
     private final Logger logger = LoggerFactory.getLogger(CurrencyRatesParser.class);
 
@@ -40,18 +48,18 @@ public class CurrencyRatesParser {
     public List<CurrencyRate> parseCurrencyRates(GetCurrentFxRatesResponse.GetCurrentFxRatesResult currentEUFxRates) {
         if (Objects.isNull(currentEUFxRates)) {
             logger.error("currentEUFxRates is null");
-            throw new CurrencyParseException(ERROR_PARSING_CURRENCY_RATES + "GetCurrentFxRatesResult is null. Check the SOAP response");
+            throw new CurrencyParseException(CURRENCY_RATES_RESULT_IS_NULL);
         }
         List<Object> content = currentEUFxRates.getContent();
         logger.debug("Starting parsing currency list content: {}", content);
         if (content.isEmpty()) {
             logger.error("Content is empty");
-            throw new CurrencyParseException(ERROR_PARSING_CURRENCY_RATES + "Document is empty");
+            throw new CurrencyParseException(DOCUMENT_IS_EMPTY);
         }
         Element fxRates = (Element) content.get(0);
         if (Objects.isNull(fxRates)) {
             logger.error("FxRates is null");
-            throw new CurrencyParseException(ERROR_PARSING_CURRENCY_RATES + "FxRates is null");
+            throw new CurrencyParseException(FXRATES_IS_NULL);
         }
         return parseFxRatesContent(fxRates);
     }
@@ -86,7 +94,7 @@ public class CurrencyRatesParser {
             }
         }
         logger.error("Amount is not found");
-        throw new CurrencyParseException(ERROR_PARSING_CURRENCY_RATES + "Amount is not found");
+        throw new CurrencyParseException(CURRENCY_AMOUNT_NOT_FOUND);
     }
 
     private Pair<String, Double> parseAmount(Element currencyAmount) {
@@ -99,12 +107,12 @@ public class CurrencyRatesParser {
         NodeList currencyCodesNodeList = currencyAmount.getElementsByTagName(currencyCodeTag);
         if (currencyCodesNodeList.getLength() == 0) {
             logger.error("currency code is not found");
-            throw new CurrencyParseException(ERROR_PARSING_CURRENCY_RATES + "Currency code is not found");
+            throw new CurrencyParseException(CURRENCY_CODE_NOT_FOUND);
         }
         String currencyCode = currencyCodesNodeList.item(0).getTextContent();
         if (Objects.isNull(currencyCode) || currencyCode.isEmpty()) {
             logger.error("currency code value is not found");
-            throw new CurrencyParseException(ERROR_PARSING_CURRENCY_RATES + "Currency code value is not found");
+            throw new CurrencyParseException(CURRENCY_CODE_VALUE_NOT_FOUND);
         }
         return currencyCode;
     }
@@ -113,14 +121,14 @@ public class CurrencyRatesParser {
         String amountString = currencyAmount.getElementsByTagName(amountTag).item(0).getTextContent();
         if (Objects.isNull(amountString) || amountString.isEmpty()) {
             logger.error("amount value is not found");
-            throw new CurrencyParseException(ERROR_PARSING_CURRENCY_RATES + "Amount value is not found");
+            throw new CurrencyParseException(CURRENCY_AMOUNT_VALUE_NOT_FOUND);
         }
         double amount;
         try {
             amount = Double.parseDouble(amountString);
         } catch (RuntimeException exception) {
             logger.error("Amount is not double");
-            throw new CurrencyParseException(ERROR_PARSING_CURRENCY_RATES + "Amount is not double");
+            throw new CurrencyParseException(CURRENCY_AMOUNT_VALUE_NOT_NUMBER);
         }
         return amount;
     }

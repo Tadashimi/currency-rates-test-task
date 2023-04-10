@@ -1,6 +1,6 @@
 package com.ukolpakova.soap.response;
 
-import com.ukolpakova.soap.constants.CurrencyNameLanguage;
+import com.ukolpakova.soap.constant.CurrencyNameLanguage;
 import com.ukolpakova.soap.model.Currency;
 
 import java.util.Map;

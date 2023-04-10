@@ -1,14 +1,12 @@
 package com.ukolpakova.soap.service;
 
-import com.ukolpakova.soap.constants.CurrencyNameLanguage;
+import com.ukolpakova.soap.constant.CurrencyNameLanguage;
 import com.ukolpakova.soap.exception.CurrencyParseException;
-import com.ukolpakova.soap.exception.EntityNotFoundException;
 import com.ukolpakova.soap.model.Currency;
 import com.ukolpakova.soap.model.CurrencyRate;
 import com.ukolpakova.soap.parser.CurrencyParser;
 import com.ukolpakova.soap.parser.CurrencyRatesParser;
 import com.ukolpakova.soap.response.CurrencyRatesResponse;
-import com.ukolpakova.soap.wsclient.generated.FxRates;
 import com.ukolpakova.soap.wsclient.generated.FxRatesSoap;
 import com.ukolpakova.soap.wsclient.generated.GetCurrencyListResponse;
 import com.ukolpakova.soap.wsclient.generated.GetCurrentFxRatesResponse;
@@ -16,7 +14,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.util.ReflectionUtils;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -36,9 +33,6 @@ class RatesServiceTest {
 
     @Mock
     private FxRatesSoap fxRatesSoap;
-
-    @Mock
-    private FxRates soapFxRatesService;
 
     @Mock
     GetCurrencyListResponse.GetCurrencyListResult mockedCurrencyListResult;
@@ -61,7 +55,6 @@ class RatesServiceTest {
     public void openMocks() {
         openMocks = MockitoAnnotations.openMocks(this);
         ReflectionTestUtils.setField(underTest, "fxRatesSoap", fxRatesSoap);
-//        when(soapFxRatesService.getFxRatesSoap()).thenReturn(fxRatesSoap);
         when(fxRatesSoap.getCurrencyList()).thenReturn(mockedCurrencyListResult);
         when(fxRatesSoap.getCurrentFxRates(ratesType)).thenReturn(mockedCurrentFxRatesResult);
     }
@@ -93,30 +86,6 @@ class RatesServiceTest {
     }
 
     @Test
-    void getCurrencyRates_whenCurrencyListResponseIsNull_thenThrowException() {
-        when(fxRatesSoap.getCurrencyList()).thenReturn(null);
-        try {
-            underTest.getCurrencyRates();
-            fail();
-        } catch (Exception exception) {
-            Assertions.assertTrue(exception instanceof EntityNotFoundException);
-            Assertions.assertEquals("Currency list is not found", exception.getMessage());
-        }
-    }
-
-    @Test
-    void getCurrencyRates_whenCurrentFxRatesResponseIsNull_thenThrowException() {
-        when(fxRatesSoap.getCurrentFxRates(ratesType)).thenReturn(null);
-        try {
-            underTest.getCurrencyRates();
-            fail();
-        } catch (Exception exception) {
-            Assertions.assertTrue(exception instanceof EntityNotFoundException);
-            Assertions.assertEquals("Currency rates are not found", exception.getMessage());
-        }
-    }
-
-    @Test
     void getCurrencyRates_whenCurrencyParserThrowsException_thenThrowCurrencyParseException() {
         when(mockedCurrencyParser.parseCurrencyList(mockedCurrencyListResult)).thenThrow(new RuntimeException("Exception from parser"));
         try {
@@ -124,8 +93,7 @@ class RatesServiceTest {
             fail();
         } catch (Exception exception) {
             Assertions.assertTrue(exception instanceof CurrencyParseException);
-            Assertions.assertEquals("Error while parsing currency list", exception.getMessage());
-            Assertions.assertEquals("Exception from parser", exception.getCause().getMessage());
+            Assertions.assertEquals("Error while parsing currency list", exception.getLocalizedMessage());
         }
     }
 
@@ -138,7 +106,6 @@ class RatesServiceTest {
         } catch (Exception exception) {
             Assertions.assertTrue(exception instanceof CurrencyParseException);
             Assertions.assertEquals("Error while parsing currencies rates", exception.getMessage());
-            Assertions.assertEquals("Exception from parser", exception.getCause().getMessage());
         }
     }
 

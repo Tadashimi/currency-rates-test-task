@@ -1,6 +1,6 @@
 package com.ukolpakova.soap.controller;
 
-import com.ukolpakova.soap.constants.CurrencyNameLanguage;
+import com.ukolpakova.soap.constant.CurrencyNameLanguage;
 import com.ukolpakova.soap.exception.CurrencyParseException;
 import com.ukolpakova.soap.model.Currency;
 import com.ukolpakova.soap.response.CurrencyRatesResponse;
@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static com.ukolpakova.soap.localization.ParseCurrencyRatesErrorMessageConstant.CURRENCY_RATES_GENERAL_ERROR;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.when;
 
@@ -53,8 +54,8 @@ class RatesControllerTest {
 
     @Test
     void getCurrencyRates_whenServiceThrowsException_thenThrowsException() {
-        String expectedErrorMessage = "Exception message";
-        when(ratesService.getCurrencyRates()).thenThrow(new CurrencyParseException(expectedErrorMessage, new Throwable()));
+        String expectedErrorMessage = "Error while parsing currencies rates";
+        when(ratesService.getCurrencyRates()).thenThrow(new CurrencyParseException(CURRENCY_RATES_GENERAL_ERROR));
 
         try {
             underTest.getCurrencyRates();

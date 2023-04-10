@@ -1,4 +1,4 @@
-package com.ukolpakova.soap.constants;
+package com.ukolpakova.soap.constant;
 
 import java.util.Optional;
 

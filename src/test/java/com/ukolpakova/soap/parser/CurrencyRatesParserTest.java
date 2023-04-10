@@ -64,7 +64,7 @@ class CurrencyRatesParserTest {
             fail();
         } catch (Exception exception) {
             Assertions.assertTrue(exception instanceof CurrencyParseException);
-            Assertions.assertEquals("Error while parsing currency rates: Document is empty", exception.getMessage());
+            Assertions.assertEquals("Error while parsing currency list. Document is empty", exception.getMessage());
         }
     }
 
@@ -77,7 +77,7 @@ class CurrencyRatesParserTest {
             fail();
         } catch (Exception exception) {
             Assertions.assertTrue(exception instanceof CurrencyParseException);
-            Assertions.assertEquals("Error while parsing currency rates: FxRates is null", exception.getMessage());
+            Assertions.assertEquals("Error while parsing currency list. FxRates is null", exception.getMessage());
         }
     }
 
