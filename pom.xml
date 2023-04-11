@@ -112,11 +112,6 @@
                     <wsdlUrls>
                         <wsdlUrl>${jaxws-maven-plugin.wsdlUrl}</wsdlUrl>
                     </wsdlUrls>
-                    <extension>true</extension>
-                    <xadditionalHeaders>true</xadditionalHeaders>
-                    <encoding>UTF-8</encoding>
-                    <verbose>true</verbose>
-                    <xdebug>true</xdebug>
                     <keep>true</keep>
                     <packageName>${jaxws-maven-plugin.packageName}</packageName>
                     <sourceDestDir>src/main/java</sourceDestDir>
