@@ -24,14 +24,13 @@
         <!--        Dependencies versions -->
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <springdoc-openapi-starter-webmvc-ui.version>2.0.4</springdoc-openapi-starter-webmvc-ui.version>
-        <jakarta.xml.ws-api.version>3.0.0</jakarta.xml.ws-api.version>
         <jaxws-rt.version>3.0.0</jaxws-rt.version>
         <junit-jupiter-api.version>5.9.2</junit-jupiter-api.version>
         <mockito-core.version>5.2.0</mockito-core.version>
         <jaxws-maven-plugin.version>3.0.0</jaxws-maven-plugin.version>
         <!--        JAXWS plugin settings-->
         <jaxws-maven-plugin.wsdlUrl>https://www.lb.lt/webservices/fxrates/FxRates.asmx?WSDL</jaxws-maven-plugin.wsdlUrl>
-        <jaxws-maven-plugin.packageName>com.ukolpakova.soap.wsclient.generated1</jaxws-maven-plugin.packageName>
+        <jaxws-maven-plugin.packageName>com.ukolpakova.soap.wsclient.generated</jaxws-maven-plugin.packageName>
     </properties>
 
     <dependencies>
@@ -53,16 +52,6 @@
         </dependency>
 
         <!--        Dependencies wor working with SOAP-->
-        <dependency>
-            <groupId>jakarta.xml.ws</groupId>
-            <artifactId>jakarta.xml.ws-api</artifactId>
-            <version>${jakarta.xml.ws-api.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.ws</groupId>
-            <artifactId>jaxws-rt</artifactId>
-            <version>${jaxws-rt.version}</version>
-        </dependency>
         <dependency>
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>jaxws-tools</artifactId>
