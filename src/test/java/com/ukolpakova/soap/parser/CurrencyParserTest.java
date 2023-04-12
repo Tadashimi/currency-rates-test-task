@@ -3,6 +3,7 @@ package com.ukolpakova.soap.parser;
 import com.ukolpakova.soap.constant.CurrencyNameLanguage;
 import com.ukolpakova.soap.exception.CurrencyParseException;
 import com.ukolpakova.soap.model.Currency;
+import com.ukolpakova.soap.parser.handler.CurrencyListParserHandler;
 import com.ukolpakova.soap.wsclient.generated.GetCurrencyListResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -21,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -31,8 +33,10 @@ class CurrencyParserTest {
 
     @Mock
     private GetCurrencyListResponse.GetCurrencyListResult mockedCurrencyList;
+    @Mock
+    private CurrencyListParserHandler mockedCurrencyListParserHandler;
     @MockBean
-    private final CurrencyParser underTest = new CurrencyParser();
+    private final CurrencyParser underTest = new CurrencyParser(mockedCurrencyListParserHandler);
 
     private AutoCloseable autoCloseable;
 
@@ -47,7 +51,7 @@ class CurrencyParserTest {
     }
 
     @Test
-    void parseCurrencyRates_whenXmlIsValid_thenReturnsCurrencyMap() throws URISyntaxException, ParserConfigurationException, IOException, SAXException {
+    void parseCurrencyRates_whenXmlIsValid_thenReturnsCurrencyMap() throws Exception {
         Element currencyListXml = prepareTestCurrencyListXml();
         when(mockedCurrencyList.getContent()).thenReturn(Collections.singletonList(currencyListXml));
 
@@ -56,6 +60,12 @@ class CurrencyParserTest {
         Assertions.assertNotNull(actualCurrencyMap);
         Assertions.assertTrue(actualCurrencyMap.keySet().containsAll(getExpectedCurrencyCodes()));
         Assertions.assertTrue(actualCurrencyMap.values().containsAll(getExpectedValues()));
+        Currency expectedCurrency = getExpectedValues().get(0);
+        Currency actualCurrency = actualCurrencyMap.get(expectedCurrency.getCurrencyCode());
+        CurrencyNameLanguage lt = CurrencyNameLanguage.LT;
+        CurrencyNameLanguage en = CurrencyNameLanguage.EN;
+        Assertions.assertEquals(expectedCurrency.getCurrencyNames().get(lt), actualCurrency.getCurrencyNames().get(lt));
+        Assertions.assertEquals(expectedCurrency.getCurrencyNames().get(en), actualCurrency.getCurrencyNames().get(en));
     }
 
     @Test
@@ -95,8 +105,8 @@ class CurrencyParserTest {
         return Set.of("ADP", "AED", "AFN", "ALL", "AMD");
     }
 
-    private Set<Currency> getExpectedValues() {
-        return Set.of(new Currency("ADP", Map.of(CurrencyNameLanguage.LT, "Andoros peseta", CurrencyNameLanguage.EN, "Andorran peseta")),
+    private List<Currency> getExpectedValues() {
+        return List.of(new Currency("ADP", Map.of(CurrencyNameLanguage.LT, "Andoros peseta", CurrencyNameLanguage.EN, "Andorran peseta")),
                 new Currency("AED", Map.of(CurrencyNameLanguage.LT, "Jungtinių Arabų Emiratų dirhamas", CurrencyNameLanguage.EN, "UAE dirham")),
                 new Currency("AFN", Map.of(CurrencyNameLanguage.LT, "Afganistano afganis", CurrencyNameLanguage.EN, "Afghani")),
                 new Currency("ALL", Map.of(CurrencyNameLanguage.LT, "Albanijos lekas", CurrencyNameLanguage.EN, "Albanian lek")),

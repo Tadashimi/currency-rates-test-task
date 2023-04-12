@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.Locale;
+
 /**
  * Global exception handler for handle custom exceptions.
  */
@@ -21,7 +23,7 @@ public class CurrencyParseExceptionHandler extends ResponseEntityExceptionHandle
     private final Logger logger = LoggerFactory.getLogger(CurrencyParseExceptionHandler.class);
 
     @ExceptionHandler(value = CurrencyParseException.class)
-    private ResponseEntity<Object> handleParseException(RuntimeException exception, WebRequest request) {
+    private ResponseEntity<Object> handleParseException(RuntimeException exception, WebRequest request, Locale locale) {
         logger.error(exception.getMessage());
         return handleExceptionInternal(exception, exception.getLocalizedMessage(),
                 new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);

@@ -60,7 +60,7 @@ public class RatesService {
         GetCurrencyListResponse.GetCurrencyListResult currencyList = fxRatesSoap.getCurrencyList();
         try {
             return currencyParser.parseCurrencyList(currencyList);
-        } catch (RuntimeException ex) {
+        } catch (Exception ex) {
             logger.error("Currency list parsing failed. See details in exception: ", ex);
             throw new CurrencyParseException(CURRENCY_LIST_GENERAL_ERROR);
         }

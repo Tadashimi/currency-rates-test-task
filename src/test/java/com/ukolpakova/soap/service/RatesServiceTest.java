@@ -65,7 +65,7 @@ class RatesServiceTest {
     }
 
     @Test
-    void getCurrencyRates_whenResponsesAreParsed_thenReturnCurrencyRates() {
+    void getCurrencyRates_whenResponsesAreParsed_thenReturnCurrencyRates() throws Exception {
         Currency expectedCurrency = generateTestCurrency();
         int expectedCurrencyAmount = 12;
         CurrencyRate testCurrencyRate = new CurrencyRate(expectedCurrency.getCurrencyCode(), expectedCurrencyAmount);
@@ -86,7 +86,7 @@ class RatesServiceTest {
     }
 
     @Test
-    void getCurrencyRates_whenCurrencyParserThrowsException_thenThrowCurrencyParseException() {
+    void getCurrencyRates_whenCurrencyParserThrowsException_thenThrowCurrencyParseException() throws Exception {
         when(mockedCurrencyParser.parseCurrencyList(mockedCurrencyListResult)).thenThrow(new RuntimeException("Exception from parser"));
         try {
             underTest.getCurrencyRates();
