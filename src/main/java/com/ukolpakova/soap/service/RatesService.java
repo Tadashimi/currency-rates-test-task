@@ -7,11 +7,9 @@ import com.ukolpakova.soap.model.CurrencyRate;
 import com.ukolpakova.soap.parser.CurrencyParser;
 import com.ukolpakova.soap.parser.CurrencyRatesParser;
 import com.ukolpakova.soap.response.CurrencyRatesResponse;
-import com.ukolpakova.soap.wsclient.generated.FxRates;
 import com.ukolpakova.soap.wsclient.generated.FxRatesSoap;
 import com.ukolpakova.soap.wsclient.generated.GetCurrencyListResponse;
 import com.ukolpakova.soap.wsclient.generated.GetCurrentFxRatesResponse;
-import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -34,31 +32,26 @@ public class RatesService {
     private final Logger logger = LoggerFactory.getLogger(RatesService.class);
     private final CurrencyParser currencyParser;
     private final CurrencyRatesParser currencyRatesParser;
+    private final FxRatesSoap fxRatesSoap;
 
-    private FxRatesSoap fxRatesSoap;
-
-    public RatesService(CurrencyParser currencyParser, CurrencyRatesParser currencyRatesParser) {
+    public RatesService(CurrencyParser currencyParser, CurrencyRatesParser currencyRatesParser, FxRatesSoap fxRatesSoap) {
         this.currencyParser = currencyParser;
         this.currencyRatesParser = currencyRatesParser;
-    }
-
-    @PostConstruct
-    public void initSoapServer() {
-        fxRatesSoap = new FxRates().getFxRatesSoap();
+        this.fxRatesSoap = fxRatesSoap;
     }
 
     public List<CurrencyRatesResponse> getCurrencyRates() {
-        Map<String, Currency> currenciesMap = getCurrencyMap();
+        Map<String, Currency> currenciesMap = getCurrencyCodeCurrencyMap();
         List<CurrencyRate> currentEUFxRates = getCurrentEUFxRates();
         return mergeCurrenciesDataToCurrencyRatesResponse(currenciesMap, currentEUFxRates);
     }
 
-    private Map<String, Currency> getCurrencyMap() {
+    private Map<String, Currency> getCurrencyCodeCurrencyMap() {
         logger.debug("Getting the currency list from SOAP server");
         GetCurrencyListResponse.GetCurrencyListResult currencyList = fxRatesSoap.getCurrencyList();
         try {
             return currencyParser.parseCurrencyList(currencyList);
-        } catch (RuntimeException ex) {
+        } catch (Exception ex) {
             logger.error("Currency list parsing failed. See details in exception: ", ex);
             throw new CurrencyParseException(CURRENCY_LIST_GENERAL_ERROR);
         }
@@ -69,7 +62,7 @@ public class RatesService {
         GetCurrentFxRatesResponse.GetCurrentFxRatesResult currentEUFxRates = fxRatesSoap.getCurrentFxRates("EU");
         try {
             return currencyRatesParser.parseCurrencyRates(currentEUFxRates);
-        } catch (RuntimeException ex) {
+        } catch (Exception ex) {
             logger.error("Currency rates parsing failed. See details in exception: ", ex);
             throw new CurrencyParseException(CURRENCY_RATES_GENERAL_ERROR);
         }

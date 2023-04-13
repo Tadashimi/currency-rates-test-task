@@ -2,6 +2,7 @@ package com.ukolpakova.soap.model;
 
 import com.ukolpakova.soap.constant.CurrencyNameLanguage;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -20,6 +21,9 @@ public class Currency {
      * Currency names in different languages.
      */
     private Map<CurrencyNameLanguage, String> currencyNames;
+
+    public Currency() {
+    }
 
     public Currency(String currencyCode, Map<CurrencyNameLanguage, String> currencyNames) {
         this.currencyCode = currencyCode;
@@ -53,5 +57,12 @@ public class Currency {
     @Override
     public int hashCode() {
         return Objects.hash(currencyCode);
+    }
+
+    public void addCurrencyName(CurrencyNameLanguage language, String name) {
+        if (Objects.isNull(currencyNames)) {
+            currencyNames = new HashMap<>();
+        }
+        currencyNames.put(language, name);
     }
 }

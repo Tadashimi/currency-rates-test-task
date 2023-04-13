@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +69,6 @@ class RatesControllerTest {
 
     private CurrencyRatesResponse generateTestRatesResponse() {
         Currency currency = new Currency("ADP", Map.of(CurrencyNameLanguage.EN, "Currency"));
-        return new CurrencyRatesResponse(currency, 12.0);
+        return new CurrencyRatesResponse(currency, new BigDecimal("12.0"));
     }
 }
