@@ -2,7 +2,6 @@ package com.ukolpakova.soap.controller;
 
 import com.ukolpakova.soap.response.CurrencyRatesResponse;
 import com.ukolpakova.soap.service.RatesService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +17,6 @@ public class RatesController {
 
     private final RatesService ratesService;
 
-    @Autowired
     public RatesController(RatesService ratesService) {
         this.ratesService = ratesService;
     }
