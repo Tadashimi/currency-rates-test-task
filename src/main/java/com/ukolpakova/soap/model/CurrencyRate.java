@@ -1,5 +1,6 @@
 package com.ukolpakova.soap.model;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -15,9 +16,12 @@ public class CurrencyRate {
     /**
      * Currency amount in 1 euro.
      */
-    private double currencyAmount;
+    private BigDecimal currencyAmount;
 
-    public CurrencyRate(String currencyCode, double currencyAmount) {
+    public CurrencyRate() {
+    }
+
+    public CurrencyRate(String currencyCode, BigDecimal currencyAmount) {
         this.currencyCode = currencyCode;
         this.currencyAmount = currencyAmount;
     }
@@ -30,11 +34,11 @@ public class CurrencyRate {
         this.currencyCode = currencyCode;
     }
 
-    public double getCurrencyAmount() {
+    public BigDecimal getCurrencyAmount() {
         return currencyAmount;
     }
 
-    public void setCurrencyAmount(double currencyAmount) {
+    public void setCurrencyAmount(BigDecimal currencyAmount) {
         this.currencyAmount = currencyAmount;
     }
 
@@ -43,7 +47,7 @@ public class CurrencyRate {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CurrencyRate that = (CurrencyRate) o;
-        return Double.compare(that.currencyAmount, currencyAmount) == 0 && Objects.equals(currencyCode, that.currencyCode);
+        return Objects.equals(currencyCode, that.currencyCode) && Objects.equals(currencyAmount, that.currencyAmount);
     }
 
     @Override

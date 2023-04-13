@@ -3,6 +3,7 @@ package com.ukolpakova.soap.response;
 import com.ukolpakova.soap.constant.CurrencyNameLanguage;
 import com.ukolpakova.soap.model.Currency;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -22,9 +23,9 @@ public class CurrencyRatesResponse {
     /**
      * Currency amount in 1 euro.
      */
-    private double currencyAmount;
+    private BigDecimal currencyAmount;
 
-    public CurrencyRatesResponse(Currency currency, double currencyAmount) {
+    public CurrencyRatesResponse(Currency currency, BigDecimal currencyAmount) {
         this.currencyCode = currency.getCurrencyCode();
         this.currencyNames = currency.getCurrencyNames();
         this.currencyAmount = currencyAmount;
@@ -46,11 +47,11 @@ public class CurrencyRatesResponse {
         this.currencyNames = currencyNames;
     }
 
-    public double getCurrencyAmount() {
+    public BigDecimal getCurrencyAmount() {
         return currencyAmount;
     }
 
-    public void setCurrencyAmount(double currencyAmount) {
+    public void setCurrencyAmount(BigDecimal currencyAmount) {
         this.currencyAmount = currencyAmount;
     }
 }

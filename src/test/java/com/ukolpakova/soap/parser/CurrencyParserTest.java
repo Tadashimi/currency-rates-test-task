@@ -5,19 +5,19 @@ import com.ukolpakova.soap.exception.CurrencyParseException;
 import com.ukolpakova.soap.model.Currency;
 import com.ukolpakova.soap.parser.handler.CurrencyListParserHandler;
 import com.ukolpakova.soap.wsclient.generated.GetCurrencyListResponse;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -29,31 +29,23 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class CurrencyParserTest {
-
     @Mock
     private GetCurrencyListResponse.GetCurrencyListResult mockedCurrencyList;
     @Mock
     private CurrencyListParserHandler mockedCurrencyListParserHandler;
-    @MockBean
-    private final CurrencyParser underTest = new CurrencyParser(mockedCurrencyListParserHandler);
+    @Mock
+    private SAXParser mockedSaxParser;
 
-    private AutoCloseable autoCloseable;
-
-    @BeforeEach
-    public void setUp() {
-        autoCloseable = MockitoAnnotations.openMocks(this);
-    }
-
-    @AfterEach
-    public void closeMocks() throws Exception {
-        autoCloseable.close();
-    }
+    @InjectMocks
+    private CurrencyParser underTest;
 
     @Test
     void parseCurrencyRates_whenXmlIsValid_thenReturnsCurrencyMap() throws Exception {
         Element currencyListXml = prepareTestCurrencyListXml();
         when(mockedCurrencyList.getContent()).thenReturn(Collections.singletonList(currencyListXml));
+        when(mockedCurrencyListParserHandler.getCurrenciesMap()).thenReturn(getExpectedMap());
 
         Map<String, Currency> actualCurrencyMap = underTest.parseCurrencyList(mockedCurrencyList);
 
@@ -103,6 +95,15 @@ class CurrencyParserTest {
 
     private Set<String> getExpectedCurrencyCodes() {
         return Set.of("ADP", "AED", "AFN", "ALL", "AMD");
+    }
+
+    private Map<String, Currency> getExpectedMap() {
+        return Map.of("ADP", new Currency("ADP", Map.of(CurrencyNameLanguage.LT, "Andoros peseta", CurrencyNameLanguage.EN, "Andorran peseta")),
+                "AED", new Currency("AED", Map.of(CurrencyNameLanguage.LT, "Jungtinių Arabų Emiratų dirhamas", CurrencyNameLanguage.EN, "UAE dirham")),
+                "AFN", new Currency("AFN", Map.of(CurrencyNameLanguage.LT, "Afganistano afganis", CurrencyNameLanguage.EN, "Afghani")),
+                "ALL", new Currency("ALL", Map.of(CurrencyNameLanguage.LT, "Albanijos lekas", CurrencyNameLanguage.EN, "Albanian lek")),
+                "AMD", new Currency("AMD", Map.of(CurrencyNameLanguage.LT, "Armėnijos dramas", CurrencyNameLanguage.EN, "Armenian dram"))
+        );
     }
 
     private List<Currency> getExpectedValues() {

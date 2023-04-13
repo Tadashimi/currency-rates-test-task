@@ -2,57 +2,53 @@ package com.ukolpakova.soap.parser;
 
 import com.ukolpakova.soap.exception.CurrencyParseException;
 import com.ukolpakova.soap.model.CurrencyRate;
+import com.ukolpakova.soap.parser.handler.CurrencyRatesParserHandler;
 import com.ukolpakova.soap.wsclient.generated.GetCurrentFxRatesResponse;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class CurrencyRatesParserTest {
-
     @Mock
     private GetCurrentFxRatesResponse.GetCurrentFxRatesResult mockedCurrentFxRatesResult;
+    @Mock
+    private CurrencyRatesParserHandler mockedCurrencyRatesParserHandler;
+    @Mock
+    private SAXParser mockedSaxParser;
 
-    private final CurrencyRatesParser underTest = new CurrencyRatesParser();
-
-    private AutoCloseable autoCloseable;
-
-    @BeforeEach
-    public void setUp() {
-        autoCloseable = MockitoAnnotations.openMocks(this);
-    }
-
-    @AfterEach
-    public void closeMocks() throws Exception {
-        autoCloseable.close();
-    }
+    @InjectMocks
+    private CurrencyRatesParser underTest;
 
     @Test
-    void parseCurrencyRates_whenXmlIsValid_thenReturnsCurrencyMap() throws URISyntaxException, ParserConfigurationException, IOException, SAXException {
+    void parseCurrencyRates_whenXmlIsValid_thenReturnsCurrencyMap() throws Exception {
         Element currentFxRatesXml = prepareTestCurrentFxRatesXml();
         when(mockedCurrentFxRatesResult.getContent()).thenReturn(Collections.singletonList(currentFxRatesXml));
+        when(mockedCurrencyRatesParserHandler.getCurrencyRatesList()).thenReturn(getExpectedCurrencyRates());
 
         List<CurrencyRate> actualCurrencyRates = underTest.parseCurrencyRates(mockedCurrentFxRatesResult);
 
         Assertions.assertNotNull(actualCurrencyRates);
-        Assertions.assertTrue(actualCurrencyRates.containsAll(getExpectedCurrencyCodes()));
+        Assertions.assertTrue(actualCurrencyRates.containsAll(getExpectedCurrencyRates()));
     }
 
     @Test
@@ -88,10 +84,10 @@ class CurrencyRatesParserTest {
         return db.parse(file).getDocumentElement();
     }
 
-    private Set<CurrencyRate> getExpectedCurrencyCodes() {
-        return Set.of(new CurrencyRate("AUD", 1.6312),
-                new CurrencyRate("BGN", 1.9558),
-                new CurrencyRate("BRL", 5.5096)
+    private List<CurrencyRate> getExpectedCurrencyRates() {
+        return List.of(new CurrencyRate("AUD", new BigDecimal("1.6312")),
+                new CurrencyRate("BGN", new BigDecimal("1.9558")),
+                new CurrencyRate("BRL", new BigDecimal("5.5096"))
         );
     }
 }

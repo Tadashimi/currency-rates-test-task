@@ -19,7 +19,6 @@ public class CurrencyListParserHandler extends DefaultHandler {
     private static final String currencyNameTag = "CcyNm";
     private static final String currencyTableTag = "CcyTbl";
     private static final String fxRatesTag = "FxRates";
-
     private static final String langAttributeTag = "lang";
 
     private Map<String, Currency> currenciesMap;
@@ -41,9 +40,7 @@ public class CurrencyListParserHandler extends DefaultHandler {
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         switch (qName) {
             case fxRatesTag, currencyTableTag -> currenciesMap = new HashMap<>();
-            case currencyEntryTag -> {
-                currentCurrency = new Currency();
-            }
+            case currencyEntryTag -> currentCurrency = new Currency();
             case currencyTag -> elementValue = new StringBuilder();
             case currencyNameTag -> {
                 elementValue = new StringBuilder();

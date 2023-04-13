@@ -5,17 +5,13 @@ import com.ukolpakova.soap.model.Currency;
 import com.ukolpakova.soap.parser.handler.CurrencyListParserHandler;
 import com.ukolpakova.soap.parser.utils.NodeToInputStreamConverter;
 import com.ukolpakova.soap.wsclient.generated.GetCurrencyListResponse;
-import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,6 +21,7 @@ import java.util.Objects;
 
 import static com.ukolpakova.soap.localization.ParseCurrencyListErrorMessageConstant.CURRENCY_LIST_RESULT_IS_NULL;
 import static com.ukolpakova.soap.localization.ParseCurrencyListErrorMessageConstant.DOCUMENT_IS_EMPTY;
+import static com.ukolpakova.soap.localization.ParseCurrencyListErrorMessageConstant.FXRATES_IS_NULL;
 
 /**
  * Parser for currency list.
@@ -33,20 +30,12 @@ import static com.ukolpakova.soap.localization.ParseCurrencyListErrorMessageCons
 public class CurrencyParser {
 
     private final Logger logger = LoggerFactory.getLogger(CurrencyParser.class);
-
     private final CurrencyListParserHandler currencyListParserHandler;
+    private final SAXParser saxParser;
 
-    private SAXParser saxParser;
-
-    @Autowired
-    public CurrencyParser(CurrencyListParserHandler currencyListParserHandler) {
+    public CurrencyParser(CurrencyListParserHandler currencyListParserHandler, SAXParser saxParser) {
         this.currencyListParserHandler = currencyListParserHandler;
-    }
-
-    @PostConstruct
-    private void init() throws ParserConfigurationException, SAXException {
-        SAXParserFactory factory = SAXParserFactory.newInstance();
-        saxParser = factory.newSAXParser();
+        this.saxParser = saxParser;
     }
 
     /**
@@ -56,17 +45,23 @@ public class CurrencyParser {
      * @param currencyList SOAP response that contains XML data for parsing currency list
      * @return map of currency code and {@link Currency}
      */
-    public Map<String, Currency> parseCurrencyList(GetCurrencyListResponse.GetCurrencyListResult currencyList) throws SAXException, IOException, TransformerException {
+    public Map<String, Currency> parseCurrencyList(GetCurrencyListResponse.GetCurrencyListResult currencyList)
+            throws SAXException, IOException, TransformerException {
         if (Objects.isNull(currencyList)) {
             logger.error("currencyList is null");
             throw new CurrencyParseException(CURRENCY_LIST_RESULT_IS_NULL);
         }
-        List<Object> content = currencyList.getContent();
-        if (Objects.isNull(content) || content.isEmpty()) {
-            logger.error("content is empty");
+        List<Object> document = currencyList.getContent();
+        if (Objects.isNull(document) || document.isEmpty()) {
+            logger.error("document is empty");
             throw new CurrencyParseException(DOCUMENT_IS_EMPTY);
         }
-        InputStream inputStream = NodeToInputStreamConverter.convertNodeToInputStream((Node) content.get(0));
+        Object fxRates = document.get(0);
+        if (Objects.isNull(fxRates)) {
+            logger.error("FxRates is null");
+            throw new CurrencyParseException(FXRATES_IS_NULL);
+        }
+        InputStream inputStream = NodeToInputStreamConverter.convertNodeToInputStream((Node) fxRates);
         saxParser.parse(inputStream, currencyListParserHandler);
         return currencyListParserHandler.getCurrenciesMap();
     }

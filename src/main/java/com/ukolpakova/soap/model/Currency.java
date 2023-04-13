@@ -22,13 +22,12 @@ public class Currency {
      */
     private Map<CurrencyNameLanguage, String> currencyNames;
 
+    public Currency() {
+    }
+
     public Currency(String currencyCode, Map<CurrencyNameLanguage, String> currencyNames) {
         this.currencyCode = currencyCode;
         this.currencyNames = currencyNames;
-    }
-
-    public Currency() {
-
     }
 
     public String getCurrencyCode() {

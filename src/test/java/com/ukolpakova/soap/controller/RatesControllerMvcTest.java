@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Map;
 
@@ -37,11 +38,11 @@ public class RatesControllerMvcTest {
     @Test
     public void getCurrencyRates_whenServiceReturnsList_thenStatusIsOkAndBodyContainsList() throws Exception {
         Currency testCurrency = new Currency("a", Map.of(CurrencyNameLanguage.EN, "enName"));
-        CurrencyRatesResponse ratesResponse = new CurrencyRatesResponse(testCurrency, 10);
+        CurrencyRatesResponse ratesResponse = new CurrencyRatesResponse(testCurrency, new BigDecimal("10.1"));
         when(serviceUnderTest.getCurrencyRates()).thenReturn(Collections.singletonList(ratesResponse));
         this.mockMvc.perform(get(apiRatesUrl)).andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string("[{\"currencyCode\":\"a\",\"currencyNames\":{\"EN\":\"enName\"},\"currencyAmount\":10.0}]"));
+                .andExpect(content().string("[{\"currencyCode\":\"a\",\"currencyNames\":{\"EN\":\"enName\"},\"currencyAmount\":10.1}]"));
     }
 
     @Test
