@@ -54,19 +54,19 @@ public class RatesControllerMvcTest {
 
     @Test
     public void getCurrencyRates_whenServiceThrowEntityNotFoundException_thenStatusIs404() throws Exception {
-        String expectedErrorMessage = "Currency info is not found for currency";
+        String expectedErrorJsonString = "{\"type\":\"about:blank\",\"title\":\"Not Found\",\"status\":404,\"detail\":\"Currency info is not found for currency\",\"instance\":\"/api/rates\"}";
         when(serviceUnderTest.getCurrencyRates()).thenThrow(new EntityNotFoundCurrencyException(CURRENCY_INFO_NOT_FOUND));
         this.mockMvc.perform(get(apiRatesUrl)).andDo(print())
                 .andExpect(status().isNotFound())
-                .andExpect(content().string(expectedErrorMessage));
+                .andExpect(content().json(expectedErrorJsonString));
     }
 
     @Test
     public void getCurrencyRates_whenServiceThrowCurrencyParseException_thenStatusIs500() throws Exception {
-        String expectedErrorMessage = "Error while parsing currencies rates";
+        String expectedErrorJsonString = "{\"type\":\"about:blank\",\"title\":\"Internal Server Error\",\"status\":500,\"detail\":\"Error while parsing currencies rates\",\"instance\":\"/api/rates\"}";
         when(serviceUnderTest.getCurrencyRates()).thenThrow(new CurrencyParseException(CURRENCY_RATES_GENERAL_ERROR));
         this.mockMvc.perform(get(apiRatesUrl)).andDo(print())
                 .andExpect(status().isInternalServerError())
-                .andExpect(content().string(expectedErrorMessage));
+                .andExpect(content().string(expectedErrorJsonString));
     }
 }
