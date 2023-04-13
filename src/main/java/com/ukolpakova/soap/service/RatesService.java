@@ -12,7 +12,6 @@ import com.ukolpakova.soap.wsclient.generated.GetCurrencyListResponse;
 import com.ukolpakova.soap.wsclient.generated.GetCurrentFxRatesResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,7 +34,6 @@ public class RatesService {
     private final CurrencyRatesParser currencyRatesParser;
     private final FxRatesSoap fxRatesSoap;
 
-    @Autowired
     public RatesService(CurrencyParser currencyParser, CurrencyRatesParser currencyRatesParser, FxRatesSoap fxRatesSoap) {
         this.currencyParser = currencyParser;
         this.currencyRatesParser = currencyRatesParser;

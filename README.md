@@ -10,3 +10,6 @@
 1. After starting the server there is an ability to perform the request from Swagger using link http://localhost:8080/swagger-ui.html
 2. Or import to the Postman collection from `posmancollection` project folder
 3. Or open Browser on URL `http://localhost:8080/api/rates`
+# Create a Docker image
+1. In the root project folder execute `docker build -t currency-rates-task-app .`
+2. To run the container execute `docker run -d -p 8080:8080 currency-rates-task-app`
